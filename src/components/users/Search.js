@@ -1,35 +1,32 @@
-import React, {Component} from 'react'
+import React, {useState} from 'react'
 
-class Search extends Component{
-  state = {
-    text: ''
-  }
-  onChange = e => {
-    this.setState({ text: e.target.value});
+const Search = ({searchUser, clearUser, showClear, setAlert}) => {
+  const [text, setText] = useState('');
+
+  const onChange = e => {
+    setText(e.target.value);
     // console.log(this.state.text);
   }
-  onSubmit = e => {
+  const onSubmit = e => {
     e.preventDefault();
-    if(this.state.text === '') {
-      this.props.setAlert('Please enter something', 'light')
+    if(text === '') {
+      setAlert('Please enter something', 'light')
     } else {
-      this.props.searchUser(this.state.text);
-      this.setState({ text: '' })
+      searchUser(text);
+      setText('');
     }
   }
-  render() {
     return (
       <div>
-        <form onSubmit={this.onSubmit} className="form">
-          <input type="text" value={this.state.text} onChange={this.onChange} placeholder="Search user..." />
+        <form onSubmit={onSubmit} className="form">
+          <input type="text" value={text} onChange={onChange} placeholder="Search user..." />
           <input type="submit" className="btn btn-primary btn-block" value="Search"/>
         </form>
-        {this.props.showClear && (
-        <button className="btn btn-light btn-block" onClick={this.props.clearUser}>Clear</button>
+        {showClear && (
+        <button className="btn btn-light btn-block" onClick={clearUser}>Clear</button>
         )}
       </div>
     )
-  }
 }
 
 export default Search
